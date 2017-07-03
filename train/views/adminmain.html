@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>管理界面</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- 引入 Bootstrap -->
+   <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/sweetalert.css" rel="stylesheet">
+  <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+  <script src="js/bootstrap.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+   <script type="text/javascript" src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+  <script src="js/sweetalert.min.js" type="text/javascript"></script>
+  <script src="myjs/adminmain.js" type="text/javascript"></script>
+</head>
+<body style="padding-bottom:60px;">
+<div class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" style="cursor:pointer;"  id="manage">管理界面</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+      <li class="dropdown"><a style="cursor:pointer;" id="userinfo">用户信息</a></li>
+        <li class="dropdown"><a href="#Inset" data-toggle="modal" data-target="#Inset">添加车次<span class="sr-only">(current)</span></a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">管理中心 <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#" data-toggle="modal" data-target="#UpdatePwd">修改密码</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#" id="logout">退出</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" id="tnumber2" class="form-control" placeholder="查询列车">
+        </div>
+        <button type="button" id="search" class="btn btn-default">搜索</button>
+      </form>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</div>
+<!--添加车次信息-->
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="Inset">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">添加车次信息</h4>
+      </div>
+      <div class="modal-body">
+      <input type="text" class="form-control" placeholder="增加列车号" aria-describedby="basic-addon1" id="tnumber"><br>
+      <input type="text" class="form-control" placeholder="添加出发时刻" aria-describedby="basic-addon1" id="tstime" readonly><br>
+      <input type="text" class="form-control" placeholder="添加到达时刻" aria-describedby="basic-addon1" id="tetime" readonly><br>
+      <input type="text" class="form-control" placeholder="添加票数" aria-describedby="basic-addon1" id="tcount"><br>
+      <input type="text" class="form-control" placeholder="添加起始站" aria-describedby="basic-addon1" id="tstart"><br>
+      <input type="text" class="form-control" placeholder="添加目的站" aria-describedby="basic-addon1" id="tend">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="addTrain">确认添加</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--更新管理员密码-->
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="UpdatePwd" style="margin-top: 10%;">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">重置密码</h4>
+      </div>
+      <div class="modal-body">
+      <input type="password" class="form-control" placeholder="输入新密码" aria-describedby="basic-addon1" id="apwd"><br>
+      <input type="password" class="form-control" placeholder="再次输入密码" aria-describedby="basic-addon1" id="apwd2">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="updatepwd">确认修改</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--模态框（更新车次信息）-->
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="Update">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">更新<span id="car"></span>车次信息</h4>
+      </div>
+      <div class="modal-body">
+      <input type="hidden" id="tnumber1"  class="form-control" aria-describedby="basic-addon1">
+      <input type="text" id="tstime1" class="form-control" placeholder="更新出发时刻" aria-describedby="basic-addon1" readonly><br>
+      <input type="text" id="tetime1" class="form-control" placeholder="更新到达时刻" aria-describedby="basic-addon1" readonly><br>
+      <input type="text" id="tcount1" class="form-control" placeholder="更新票数" aria-describedby="basic-addon1"><br>
+      <input type="text" id="tstart1" class="form-control" placeholder="更新起始站" aria-describedby="basic-addon1"><br>
+      <input type="text" id="tend1" class="form-control" placeholder="更新目的站" aria-describedby="basic-addon1">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" id="updateCar" class="btn btn-primary">确认更新</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- 添加站点信息 -->
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="addplace">
+<div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">添加<span id="tnumber3"></span>的站点</h4>
+      </div>
+      <div class="modal-body">
+      <input type="hidden" id="tid">
+      <input type="text" class="form-control" placeholder="站点名称" aria-describedby="basic-addon1" id="cpname"><br>
+      <input type="text" class="form-control" placeholder="价格" aria-describedby="basic-addon1" id="cprice">
+      <br>
+      <input type="text" class="form-control" placeholder="抵达时间" aria-describedby="basic-addon1" id="atime" readonly>
+      <br>
+      <input type="text" class="form-control" placeholder="发车时间" aria-describedby="basic-addon1" id="stime" readonly>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="subplace">确认添加</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 更新站点信息 -->
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="updateplace">
+<div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">修改<span id="tnumber4"></span>的站点</h4>
+      </div>
+      <div class="modal-body">
+      <input type="hidden" id="cpid">
+      <input type="hidden" id="tid2">
+      <input type="text" class="form-control" placeholder="站点名称" aria-describedby="basic-addon1" id="cpname1"><br>
+      <input type="text" class="form-control" placeholder="价格" aria-describedby="basic-addon1" id="cprice1">
+      <br>
+      <input type="text" class="form-control" placeholder="抵达时间" aria-describedby="basic-addon1" id="atime1" readonly>
+      <br>
+      <input type="text" class="form-control" placeholder="发车时间" aria-describedby="basic-addon1" id="stime1" readonly>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="subupdateplace">确认修改</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+	<div class="col-xs-12 col-md-12">
+		<div id="myTabContent">
+			<ul class="list-group" id="train">
+				  
+			</ul>
+			</div>
+			</div>
+	</div>
+</div>
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container" style="padding:20px;">
+    <P style="margin:0 auto;" align="center">@2017刘志豪丁重辉陈乾</P>
+  </div>
+</nav>
+</body>
+</html>
